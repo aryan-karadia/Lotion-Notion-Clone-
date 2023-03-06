@@ -1,14 +1,19 @@
-import Header from './components/Header';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Notes from './pages/Notes';
+import Layout from './components/Layout';
+import Edit from './pages/Edit';
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
-        <Header />
           <Routes>
-            <Route path="/" element={<Notes />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Navigate to="/Notes"/>} />
+              <Route path="/Notes" element={<Notes />} />
+              <Route path="Notes/:id/edit" element={<Edit />} />
+            </Route>
           </Routes>
       </BrowserRouter>
     </>
