@@ -12,7 +12,6 @@ const Edit = () => {
     //     }
 
     // }, []);
-    
     const navigate = useNavigate();
     const { id } = useParams();
     const [content, setContent] = useState("");
@@ -38,7 +37,7 @@ const Edit = () => {
         return formatted;
     };
     
-    const [note, setNote] = useState({id: `${id}`, Title: "Untitled", Content: "", when:  formatDate(Date.now())});
+    const [note, setNote] = useState({id: `${id}`, Title: "", Content: "", when: formatDate(Date.now())});
 
     const save = () => {
         let bodyText = document.querySelector(".ql-editor").innerText;
@@ -52,6 +51,8 @@ const Edit = () => {
         console.log(note);
         navigate(`/`);
         navigate(`/Notes/${id}`);
+        const noteTitle = document.querySelector(`#note-${id}`);
+        noteTitle.innerHTML = `<h2>${note.Title}</h2><p style={{color: "var(--secondary-color)"}} >${note.when}</p><p>${note.Content}</p>`;
     };
 
     

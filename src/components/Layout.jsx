@@ -17,6 +17,11 @@ const Layout = () => {
         const newNote = document.createElement("div");
         newNote.className = "note-title";
         newNote.innerHTML = `<h2>Untitled</h2><p>...</p>`;
+        newNote.setAttributeNode(document.createAttribute("id"));
+        newNote.id = `note-${idnum}`;
+        newNote.addEventListener("click", () => {
+            navigate(`Notes/${idnum}`);
+        });
         noteTitles.appendChild(newNote);
 
 

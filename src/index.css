@@ -255,6 +255,12 @@ header {
   color: var(--primary-color);
 }
 
+.note-title:hover {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: var(--accent-col);
+}
+
 .note-title h2 {
   margin: 0;
   padding: 0;
@@ -267,4 +273,5 @@ header {
   padding: 0;
   margin-left: 15px;
   margin-top: 5px;
+  font-size: x-small;
 }
