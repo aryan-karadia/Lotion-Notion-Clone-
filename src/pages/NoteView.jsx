@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { useParams, useNavigate } from "react-router-dom";
+
+
 
 const NoteView = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
-    const [note, setNote] = useState(null);
+    const [note, setNote] = useState({});
     const [content, setContent] = useState("");
     
     useEffect(() => {
@@ -13,20 +14,25 @@ const NoteView = () => {
         setContent(JSON.parse(localStorage.getItem(`${id}`)).content);
         }, [id]);
 
+    const editNote = () => {
+        navigate(`/Notes/${id}/edit`);
+    }
     
     return (
-        <div>
+        <div id="body">
         {note && (
-            <div >
-            <span id="content-header">
-                <h1>{note.title}</h1>
-                <p>{note.when}</p>
+            <div>
+            <span id="note-header">
+                <div>
+                    <h1 className="view-title">{JSON.parse(localStorage.getItem(`${id}`)).Title}</h1>
+                    <p style={{color: "var(--secondary-color)"}} >{JSON.parse(localStorage.getItem(`${id}`)).when}</p>
+                </div>
                 <span>
-                    <span className="save-btn">Edit</span>
+                    <span className="save-btn" onClick={editNote}>Edit</span>
                     <span className="del-btn">Delete</span>
                 </span>
             </span>
-            <ReactQuill className="editor" placeholder="Your Note Here" value={content} onChange={setContent} readOnly={true} />
+            <p>{JSON.parse(localStorage.getItem(`${id}`)).Content}</p>
 
         </div>
         )}

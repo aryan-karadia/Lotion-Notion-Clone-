@@ -11,14 +11,21 @@ const Layout = () => {
     
     const newNote = () => {
         setIdnum(idnum + 1);
+        const temp = document.querySelector(".temp");
+        temp.parentNode.removeChild(temp);
+        const noteTitles = document.querySelector("#note-titles");
+        const newNote = document.createElement("div");
+        newNote.className = "note-title";
+        newNote.innerHTML = `<h2>Untitled</h2><p>...</p>`;
+        noteTitles.appendChild(newNote);
+
+
         navigate(`Notes/${idnum}/edit`);
     }
 
     const toggleMenu = () => {
         const menu = document.querySelector(".side-menu");
         menu.style.display === "none" ? menu.style.display = "flex" : menu.style.display = "none";
-        const content = document.querySelector(".notes");
-        content.style.width === "100%" ? content.style.width = "75%" : content.style.width = "100%";
     }
 
     return (
@@ -38,7 +45,7 @@ const Layout = () => {
                         <span className="new-note" onClick={newNote}>&#43;</span>
                     </div>
                     <div id="note-titles">
-                        <p style={{color: "var(--secondary-color)"}}>No Notes Yet</p>
+                        <p  className="temp" style={{color: "var(--secondary-color)"}}>No Notes Yet</p>
                     </div>
                 </div>
                 <Outlet/>

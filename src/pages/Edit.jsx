@@ -4,15 +4,25 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const Edit = () => {
+    // useEffect (() => {
+
+    //     const note = localStorage.getItem(`${id}`);
+    //     if (note) {
+    //         setNote(JSON.parse(note));
+    //     }
+
+    // }, []);
+    
     const navigate = useNavigate();
     const { id } = useParams();
     const [content, setContent] = useState("");
-    const [title, setTitle] = useState("Untitled");
     const ChangeTitle = (e) => {
-        setTitle(e.target.value);
-        console.log(title);
+        setNote(note => ({
+            ...note,
+            Title :e.target.value
+    }));
     };
-    
+
     const options = {
         year: "numeric",
         month: "long",
@@ -27,17 +37,17 @@ const Edit = () => {
         }
         return formatted;
     };
-
-    const [note, setNote] = useState({id: `${id}`, Title: "", Content: "", when:  formatDate(Date.now())});
     
-    useEffect(() => {
-        localStorage.setItem(`${id}`, JSON.stringify(note));
-    }, [id, note]);
+    const [note, setNote] = useState({id: `${id}`, Title: "Untitled", Content: "", when:  formatDate(Date.now())});
 
     const save = () => {
-        console.log(content);
-        console.log(title);
-        setNote({id: `${id}`, Title: title, Content:content , when: document.querySelector(".date").value});
+        let bodyText = document.querySelector(".ql-editor").innerText;
+        console.log(bodyText);
+        setNote(note => ({
+            ...note,
+            Content: bodyText,
+            when :formatDate(Date.now())
+            }));
         localStorage.setItem(`${id}`, JSON.stringify(note));
         console.log(note);
         navigate(`/`);
@@ -46,10 +56,10 @@ const Edit = () => {
 
     
     return (
-        <div id="edit">
-            <span id="edit-header">
+        <div id="body">
+            <span id="note-header">
                 <div>
-                    <input type="text" defaultValue={"Untitled"} className="title" onChange={ChangeTitle} />
+                    <input type="text" defaultValue={"Untitled"} className="title" onChange={(e) => ChangeTitle(e)} />
                     <input className="date" type="datetime-local" defaultValue={Date.now()}/>
                 </div>
                 <span>
