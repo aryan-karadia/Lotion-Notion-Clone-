@@ -11,13 +11,20 @@ const Layout = () => {
     
     const newNote = () => {
         setIdnum(idnum + 1);
-        console.log(idnum);
         navigate(`Notes/${idnum}/edit`);
     }
+
+    const toggleMenu = () => {
+        const menu = document.querySelector(".side-menu");
+        menu.style.display === "none" ? menu.style.display = "flex" : menu.style.display = "none";
+        const content = document.querySelector(".notes");
+        content.style.width === "100%" ? content.style.width = "75%" : content.style.width = "100%";
+    }
+
     return (
         <>    
             <header>
-                <span className="menu-toggle">&#9776;</span>
+                <span className="menu-toggle" onClick={toggleMenu}>&#9776;</span>
                 <div className="header-text">                
                     <h1>Lotion</h1>
                     <p>Like Notion, but worse.</p>
