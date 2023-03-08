@@ -39,7 +39,6 @@ const Edit = () => {
     };
     
     const [note, setNote] = useState({id: `${id}`, Title: "Untitled", Content: "", when: formatDate(Date.now())});
-    console.log(prevNote);
 
     useEffect( 
         () => {
@@ -52,17 +51,16 @@ const Edit = () => {
                     when: prevNote.when
                 }))
             }
-        }, []);
-
-    console.log(note);
-    
+        }, [prevNote]);    
     
     
     const save = () => {
         let bodyText = document.querySelector(".ql-editor").innerHTML;
-        bodyText = bodyText.slice(3, bodyText.length - 4);
+        bodyText = bodyText.slice(3, bodyText.length - 4).toString();
         console.log(bodyText);
-        setNote(note => ({
+
+        // Not working for some reason???
+        setNote(note => ( { 
             ...note,
             Content: bodyText
             }));

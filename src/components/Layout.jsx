@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 
 
@@ -8,27 +8,55 @@ const Layout = () => {
     const navigate = useNavigate();
     const [idnum, setIdnum] = useState(1);
 
+    useEffect(() => {
+        localStorage.clear();
+        console.log("storage cleared");
+    }, []);
+
+    useEffect(() => {
+        if (localStorage.getItem(`${idnum}`) != null) {
+        const noteTitles = document.querySelector("#note-titles");
+        for(let i = 1; i < idnum; i++) {
+            let newNote = document.createElement("div");
+            newNote.classList.add("note-title");
+            newNote.innerHTML = `<h2>${JSON.parse(localStorage.getItem(`${idnum}`)).Title}</h2><p>${JSON.parse(localStorage.getItem(`${idnum}`)).when}</p>`;
+            newNote.setAttributeNode(document.createAttribute("id"));
+            newNote.id = `note-${idnum}`;
+            newNote.onclick = () => {
+            noteTitles.appendChild(newNote);
+            }
+        }
+        }
+    }, [idnum]);
+
     
     const newNote = () => {
         setIdnum(idnum + 1);
         const noteTitles = document.querySelector("#note-titles");
         const newNote = document.createElement("div");
         if (document.querySelector(".temp")) {
-        const temp = document.querySelector(".temp");
-        temp.parentNode.removeChild(temp);
+            const temp = document.querySelector(".temp");
+            temp.parentNode.removeChild(temp);
         }
-        newNote.className = "note-title";
+        const prevNote = document.querySelector(".active");
+        if (prevNote) {
+            prevNote.classList.remove("active");
+        }
+        newNote.classList.add("active")
+        newNote.classList.add("note-title");
         newNote.innerHTML = `<h2>Untitled</h2><p>...</p>`;
         newNote.setAttributeNode(document.createAttribute("id"));
         newNote.id = `note-${idnum}`;
-        newNote.addEventListener("click", () => {
-            navigate(`Notes/${idnum}`);
-        });
+        newNote.onclick = () => {
+            navigate(`Notes/${idnum}`)
+        };
         noteTitles.appendChild(newNote);
 
-        localStorage.clear();
+        //localStorage.clear();
         navigate(`Notes/${idnum}/edit`);
     }
+
+
 
     const toggleMenu = () => {
         const menu = document.querySelector(".side-menu");
