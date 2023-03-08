@@ -95,6 +95,20 @@ const Edit = () => {
         navigate(`/Notes/${id}`);
     };
 
+    const Del = () => {
+        const answer = window.confirm("Are you sure?");
+        if (answer) {
+        deleteNote(id);
+        }
+    }
+
+    const deleteNote = (id) => {
+        localStorage.removeItem(`${id}`);
+        const curNote = document.querySelector(`#note-${id}`);
+        curNote.remove();
+        navigate("/Notes");
+    }
+
     return (
         <div id="body">
             <span id="note-header">
@@ -104,7 +118,7 @@ const Edit = () => {
                 </div>
                 <span>
                     <span className="save-btn" onClick={save}>Save</span>
-                    <span className="del-btn">Delete</span>
+                    <span className="del-btn" onClick={Del}>Delete</span>
                 </span>
             </span>
             <ReactQuill theme={"snow"} className="editor" placeholder="Your Note Here" value={content} onChange={saveContent} />
