@@ -249,16 +249,17 @@ header {
   height: 100px;
   width: 100%;
   text-decoration: none;
-  background-color: var(--accent-col);
+  background-color: inherit;
   border: none;
   border-style: none;
-  color: var(--primary-color);
+  color: var(--secondary-color);
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 .note-title:hover {
   cursor: pointer;
-  background-color: var(--primary-color);
-  color: var(--accent-col);
+  background-color: var(--accent-col);
+  color: var(--primary-color);
 }
 
 .note-title h2 {

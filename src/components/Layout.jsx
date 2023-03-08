@@ -11,10 +11,12 @@ const Layout = () => {
     
     const newNote = () => {
         setIdnum(idnum + 1);
-        const temp = document.querySelector(".temp");
-        temp.parentNode.removeChild(temp);
         const noteTitles = document.querySelector("#note-titles");
         const newNote = document.createElement("div");
+        if (document.querySelector(".temp")) {
+        const temp = document.querySelector(".temp");
+        temp.parentNode.removeChild(temp);
+        }
         newNote.className = "note-title";
         newNote.innerHTML = `<h2>Untitled</h2><p>...</p>`;
         newNote.setAttributeNode(document.createAttribute("id"));
@@ -24,7 +26,7 @@ const Layout = () => {
         });
         noteTitles.appendChild(newNote);
 
-
+        localStorage.clear();
         navigate(`Notes/${idnum}/edit`);
     }
 

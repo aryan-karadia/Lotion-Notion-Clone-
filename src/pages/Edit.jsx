@@ -4,24 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const Edit = () => {
-    // useEffect (() => {
-
-    //     const note = localStorage.getItem(`${id}`);
-    //     if (note) {
-    //         setNote(JSON.parse(note));
-    //     }
-
-    // }, []);
-    const navigate = useNavigate();
     const { id } = useParams();
-    const [content, setContent] = useState("");
-    const ChangeTitle = (e) => {
-        setNote(note => ({
-            ...note,
-            Title :e.target.value
-    }));
-    };
-
     const options = {
         year: "numeric",
         month: "long",
@@ -36,23 +19,59 @@ const Edit = () => {
         }
         return formatted;
     };
-    
-    const [note, setNote] = useState({id: `${id}`, Title: "", Content: "", when: formatDate(Date.now())});
 
+    const setDate = (e) => {    
+        let date = formatDate(e.target.value);
+        setNote(note => ({
+            ...note,
+            when: date
+        }));
+    };
+
+    const prevNote = localStorage.getItem(`${id}`);
+    const navigate = useNavigate();
+    const [content, setContent] = useState("");
+    const ChangeTitle = (e) => {
+        setNote(note => ({
+            ...note,
+            Title :e.target.value
+        }));
+    };
+    
+    const [note, setNote] = useState({id: `${id}`, Title: "Untitled", Content: "", when: formatDate(Date.now())});
+    console.log(prevNote);
+
+    useEffect( 
+        () => {
+            if (prevNote) {
+                console.log("useEffect evoked");
+                setNote(note => ({
+                    ...note,
+                    Title: prevNote.Title,
+                    Content: prevNote.Content,
+                    when: prevNote.when
+                }))
+            }
+        }, []);
+
+    console.log(note);
+    
+    
+    
     const save = () => {
-        let bodyText = document.querySelector(".ql-editor").innerText;
+        let bodyText = document.querySelector(".ql-editor").innerHTML;
+        bodyText = bodyText.slice(3, bodyText.length - 4);
         console.log(bodyText);
         setNote(note => ({
             ...note,
-            Content: bodyText,
-            when :formatDate(Date.now())
+            Content: bodyText
             }));
         localStorage.setItem(`${id}`, JSON.stringify(note));
         console.log(note);
-        navigate(`/`);
-        navigate(`/Notes/${id}`);
         const noteTitle = document.querySelector(`#note-${id}`);
         noteTitle.innerHTML = `<h2>${note.Title}</h2><p style={{color: "var(--secondary-color)"}} >${note.when}</p><p>${note.Content}</p>`;
+        navigate(`/`);
+        navigate(`/Notes/${id}`);
     };
 
     
@@ -60,8 +79,8 @@ const Edit = () => {
         <div id="body">
             <span id="note-header">
                 <div>
-                    <input type="text" defaultValue={"Untitled"} className="title" onChange={(e) => ChangeTitle(e)} />
-                    <input className="date" type="datetime-local" defaultValue={Date.now()}/>
+                    <input type="text" defaultValue={note.Title} className="title" onChange={(e) => ChangeTitle(e)} />
+                    <input className="date" type="datetime-local" defaultValue={Date.now()} onChange={(e) => setDate(e)}/>
                 </div>
                 <span>
                     <span className="save-btn" onClick={save}>Save</span>

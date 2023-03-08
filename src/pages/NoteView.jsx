@@ -32,7 +32,7 @@ const NoteView = () => {
                     <span className="del-btn">Delete</span>
                 </span>
             </span>
-            <p>{JSON.parse(localStorage.getItem(`${id}`)).Content}</p>
+            <p>{content}</p>
 
         </div>
         )}
