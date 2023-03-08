@@ -28,7 +28,6 @@ const Edit = () => {
         }));
     };
 
-    const prevNote = localStorage.getItem(`${id}`);
     const navigate = useNavigate();
     const [content, setContent] = useState("");
     const ChangeTitle = (e) => {
@@ -42,16 +41,19 @@ const Edit = () => {
 
     useEffect( 
         () => {
-            if (prevNote) {
-                console.log("useEffect evoked");
-                setNote(note => ({
-                    ...note,
-                    Title: prevNote.Title,
-                    Content: prevNote.Content,
-                    when: prevNote.when
-                }))
+            const curNote = JSON.parse(localStorage.getItem(`${id}`));
+            if (curNote) {
+            setNote({...note,
+                Title: curNote.Title});
+            setNote({...note,
+                when: curNote.when});
+            setNote({...note,
+                Content: curNote.Content});
+            setContent(curNote.Content);
             }
-        }, [prevNote]);    
+            console.log("curnote", curNote);
+            console.log(note);
+        }, []);    
     
     
      const saveContent = (html) => {
@@ -78,13 +80,12 @@ const Edit = () => {
         navigate(`/Notes/${id}`);
     };
 
-    
     return (
         <div id="body">
             <span id="note-header">
                 <div>
                     <input type="text" defaultValue={note.Title} className="title" onChange={(e) => ChangeTitle(e)} />
-                    <input className="date" type="datetime-local" defaultValue={Date.now()} onChange={(e) => setDate(e)}/>
+                    <input className="date" type="datetime-local" defaultValue={formatDate(note.when)} onChange={(e) => setDate(e)}/>
                 </div>
                 <span>
                     <span className="save-btn" onClick={save}>Save</span>

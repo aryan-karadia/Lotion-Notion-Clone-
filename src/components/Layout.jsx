@@ -51,7 +51,6 @@ const Layout = () => {
             navigate(`Notes/${idnum}`)
         };
         noteTitles.appendChild(newNote);
-
         navigate(`Notes/${idnum}/edit`);
     }
 
