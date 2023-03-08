@@ -160,6 +160,7 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
+  width: 100%;
   margin-left: 15px;
 }
 
@@ -173,6 +174,7 @@ header {
   border: none;
   border-style: none;
   color: var(--primary-color);
+  width: 100%;
 }
 
 #note-header .title:focus {
@@ -244,7 +246,6 @@ header {
 }
 
 .note-title {
-  font-size: 1.2rem;
   font-weight: 900;
   height: 100px;
   width: 100%;
@@ -267,6 +268,8 @@ header {
   padding: 0;
   margin-left: 15px;
   margin-top: 15px;
+  width: 100%;
+  font-size: 1.4rem;
 }
 
 .note-title p {
