@@ -22,10 +22,10 @@ const Edit = () => {
 
     const setDate = (e) => {    
         let date = formatDate(e.target.value);
-        setNote(note => ({
+        setNote({
             ...note,
             when: date
-        }));
+        });
     };
 
     const navigate = useNavigate();
@@ -33,10 +33,10 @@ const Edit = () => {
 
     const ChangeTitle = (e) => {
         setTitle(e.target.value);
-        setNote(note => ({
+        setNote({
             ...note,
             Title :e.target.value
-        }));
+        });
     };
     
     const [title, setTitle] = useState("");
@@ -58,11 +58,20 @@ const Edit = () => {
                 console.log("curnote", curNote);
                 console.log(note);
             }
-        }, []);    
+        }, []);
+
+    useEffect( () => {
+        console.log("title", title);
+        setNote({
+            ...note,
+            Title: title,
+            Content: content
+        });
+        
+    }, [title]);
     
     
      const saveContent = (html) => {
-        console.log(html);
         setContent(html);
         setNote({
             ...note,
@@ -73,6 +82,7 @@ const Edit = () => {
 
 
     const save = () => {
+        console.log(note.Title);
         localStorage.setItem(`${id}`, JSON.stringify(note));
         console.log(note);
         const noteTitle = document.querySelector(`#note-${id}`);
