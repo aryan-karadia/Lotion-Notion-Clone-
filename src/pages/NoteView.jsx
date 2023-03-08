@@ -9,19 +9,18 @@ const NoteView = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [note, setNote] = useState({id: `${id}`, Title: "", Content: "", when: ""});
-    const [content, setContent] = useState(localStorage.getItem(`${id}`).Content);
+    const [content, setContent] = useState("");
     
     useEffect(() => {
-        const curNote = localStorage.getItem(`${id}`);
-
+        const curNote = JSON.parse(localStorage.getItem(`${id}`));
         setNote({...note, 
             Title: curNote.Title,
             Content: curNote.Content,
             when: curNote.when
         })
+        setContent(curNote.Content);
         console.log(note);
         console.log(content);
-        setContent(localStorage.getItem(`${id}`).Content);
         const curNoteTitle = document.querySelector(`#note-${id}`);
         curNoteTitle.classList.add("active");
         }, []);
