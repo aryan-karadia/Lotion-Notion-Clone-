@@ -39,25 +39,25 @@ const Edit = () => {
         }));
     };
     
-    const [title, setTitle] = useState("Untitled");
+    const [title, setTitle] = useState("");
     const [note, setNote] = useState({id: `${id}`, Title: `${title}`, Content: "", when: formatDate(Date.now())});
 
     useEffect( 
         () => {
             const curNote = JSON.parse(localStorage.getItem(`${id}`));
+            curNote ? setTitle(`${curNote.Title}`) : setTitle("Untitled");
             if (curNote) {
-            setNote({...note,
-                Title: curNote.Title});
-            setNote({...note,
-                when: curNote.when});
-            setNote({...note,
-                Content: curNote.Content});
-            setContent(curNote.Content);
-            setTitle(curNote.Title);
-            console.log("title", title);
+                setNote({...note, 
+                    Title: curNote.Title,
+                    Content: curNote.Content,
+                    when: curNote.when
+                });
+                setContent(curNote.Content);
+                setTitle(curNote.Title);
+                console.log("title", title);
+                console.log("curnote", curNote);
+                console.log(note);
             }
-            console.log("curnote", curNote);
-            console.log(note);
         }, []);    
     
     
