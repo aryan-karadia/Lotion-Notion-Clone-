@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useParams } from "react-router-dom";
 
 
 
@@ -7,6 +7,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 const Layout = () => {
     const navigate = useNavigate();
     const [idnum, setIdnum] = useState(1);
+    const {id} = useParams();
 
     useEffect(() => {
         localStorage.clear();
@@ -23,11 +24,22 @@ const Layout = () => {
             newNote.setAttributeNode(document.createAttribute("id"));
             newNote.id = `note-${idnum}`;
             newNote.onclick = () => {
+                navigateToNote(idnum);
+            };
             noteTitles.appendChild(newNote);
-            }
         }
         }
     }, [idnum]);
+
+    const navigateToNote = (idnum) => {
+        const prevNote = document.querySelector(".active");
+        if (prevNote) {
+            prevNote.classList.remove("active");
+        }
+        const curNote = document.querySelector(`#note-${idnum}`);
+        curNote.classList.add("active");
+        navigate(`/Notes/${idnum}`);
+    }
 
     
     const newNote = () => {
@@ -48,7 +60,7 @@ const Layout = () => {
         newNote.setAttributeNode(document.createAttribute("id"));
         newNote.id = `note-${idnum}`;
         newNote.onclick = () => {
-            navigate(`Notes/${idnum}`)
+            navigateToNote(idnum);
         };
         noteTitles.appendChild(newNote);
         navigate(`Notes/${idnum}/edit`);

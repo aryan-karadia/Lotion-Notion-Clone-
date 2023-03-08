@@ -22,8 +22,30 @@ const NoteView = () => {
         console.log(note);
         console.log(content);
         const curNoteTitle = document.querySelector(`#note-${id}`);
+        console.log(id);
         curNoteTitle.classList.add("active");
         }, []);
+
+    const navigateToNote = (idnum) => {
+        const prevNote = document.querySelector(".active");
+        if (prevNote) {
+            prevNote.classList.remove("active");
+        }
+        const curNote = document.querySelector(`#note-${idnum}`);
+        curNote.classList.add("active");
+        navigate(`/Notes/${idnum}`);
+    }
+
+    useEffect( () => {
+        navigateToNote(id);
+        const curNote = JSON.parse(localStorage.getItem(`${id}`));
+        setNote({...note, 
+            Title: curNote.Title,
+            Content: curNote.Content,
+            when: curNote.when
+        })
+        setContent(curNote.Content);
+    }, [id]);
 
     const editNote = () => {
         navigate(`/Notes/${id}/edit`);
@@ -49,8 +71,8 @@ const NoteView = () => {
             <div>
             <span id="note-header">
                 <div>
-                    <h1 className="view-title">{JSON.parse(localStorage.getItem(`${id}`)).Title}</h1>
-                    <p style={{color: "var(--secondary-color)"}} >{JSON.parse(localStorage.getItem(`${id}`)).when}</p>
+                    <h1 className="view-title">{note.Title}</h1>
+                    <p style={{color: "var(--secondary-color)"}} >{note.when}</p>
                 </div>
                 <span>
                     <span className="save-btn" onClick={editNote}>Edit</span>

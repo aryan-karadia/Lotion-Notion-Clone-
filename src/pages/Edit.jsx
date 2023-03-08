@@ -30,14 +30,17 @@ const Edit = () => {
 
     const navigate = useNavigate();
     const [content, setContent] = useState("");
+
     const ChangeTitle = (e) => {
+        setTitle(e.target.value);
         setNote(note => ({
             ...note,
             Title :e.target.value
         }));
     };
     
-    const [note, setNote] = useState({id: `${id}`, Title: "Untitled", Content: "", when: formatDate(Date.now())});
+    const [title, setTitle] = useState("Untitled");
+    const [note, setNote] = useState({id: `${id}`, Title: `${title}`, Content: "", when: formatDate(Date.now())});
 
     useEffect( 
         () => {
@@ -50,6 +53,8 @@ const Edit = () => {
             setNote({...note,
                 Content: curNote.Content});
             setContent(curNote.Content);
+            setTitle(curNote.Title);
+            console.log("title", title);
             }
             console.log("curnote", curNote);
             console.log(note);
@@ -84,8 +89,8 @@ const Edit = () => {
         <div id="body">
             <span id="note-header">
                 <div>
-                    <input type="text" defaultValue={note.Title} className="title" onChange={(e) => ChangeTitle(e)} />
-                    <input className="date" type="datetime-local" defaultValue={formatDate(note.when)} onChange={(e) => setDate(e)}/>
+                    <input type="text" defaultValue={title} className="title" onChange={(e) => ChangeTitle(e)} />
+                    <input className="date" type="datetime-local" defaultValue={Date.now()} onChange={(e) => setDate(e)}/>
                 </div>
                 <span>
                     <span className="save-btn" onClick={save}>Save</span>
