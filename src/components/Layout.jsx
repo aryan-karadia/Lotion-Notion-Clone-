@@ -52,7 +52,6 @@ const Layout = () => {
         };
         noteTitles.appendChild(newNote);
 
-        //localStorage.clear();
         navigate(`Notes/${idnum}/edit`);
     }
 

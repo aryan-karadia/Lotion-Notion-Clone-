@@ -54,20 +54,26 @@ const Edit = () => {
         }, [prevNote]);    
     
     
-    const save = () => {
-        let bodyText = document.querySelector(".ql-editor").innerHTML;
-        bodyText = bodyText.slice(3, bodyText.length - 4).toString();
-        console.log(bodyText);
-
-        // Not working for some reason???
-        setNote(note => ( { 
+     const saveContent = (html) => {
+        console.log(html);
+        setContent(html);
+        setNote({
             ...note,
-            Content: bodyText
-            }));
+            Content: html
+        }
+        );
+    };
+
+
+    const save = () => {
         localStorage.setItem(`${id}`, JSON.stringify(note));
         console.log(note);
         const noteTitle = document.querySelector(`#note-${id}`);
-        noteTitle.innerHTML = `<h2>${note.Title}</h2><p style={{color: "var(--secondary-color)"}} >${note.when}</p><p>${note.Content}</p>`;
+        let preview = note.Content;
+        if (preview.length > 50) {
+            preview = `${preview.slice(0, 45)}...`;
+        }
+        noteTitle.innerHTML = `<h2>${note.Title}</h2><p style={{color: "var(--secondary-color)"}} >${note.when}</p><p>${preview}</p>`;
         navigate(`/`);
         navigate(`/Notes/${id}`);
     };
@@ -85,7 +91,7 @@ const Edit = () => {
                     <span className="del-btn">Delete</span>
                 </span>
             </span>
-            <ReactQuill className="editor" placeholder="Your Note Here" value={content} onChange={setContent} />
+            <ReactQuill theme={"snow"} className="editor" placeholder="Your Note Here" value={content} onChange={saveContent} />
         </div>
     );
 }

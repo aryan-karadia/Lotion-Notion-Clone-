@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
 import { useParams, useNavigate } from "react-router-dom";
+import 'react-quill/dist/quill.bubble.css';
 
 
 
 const NoteView = () => {
-    console.log(localStorage);
     const navigate = useNavigate();
     const { id } = useParams();
     const [note, setNote] = useState({id: `${id}`, Title: "", Content: "", when: ""});
     const [content, setContent] = useState(localStorage.getItem(`${id}`).Content);
     
     useEffect(() => {
-        setNote({...note, 
-            Title: localStorage.getItem(`${id}`).Title,
-            Content: localStorage.getItem(`${id}`).Content,
-            when: localStorage.getItem(`${id}`).when
-        })
+        const curNote = localStorage.getItem(`${id}`);
 
+        setNote({...note, 
+            Title: curNote.Title,
+            Content: curNote.Content,
+            when: curNote.when
+        })
+        console.log(note);
+        console.log(content);
         setContent(localStorage.getItem(`${id}`).Content);
-        const curNote = document.querySelector(`#note-${id}`);
-        curNote.classList.add("active");
+        const curNoteTitle = document.querySelector(`#note-${id}`);
+        curNoteTitle.classList.add("active");
         }, []);
 
     const editNote = () => {
@@ -54,7 +58,7 @@ const NoteView = () => {
                     <span className="del-btn" onClick={Del}>Delete</span>
                 </span>
             </span>
-            <p>{content}</p>
+            <ReactQuill className="editor" value={content} readOnly={true} theme={"bubble"} />
 
         </div>
         )}

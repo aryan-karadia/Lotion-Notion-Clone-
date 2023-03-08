@@ -223,7 +223,7 @@ header {
 
 .editor::placeholder {
   color: #E5E4E2;
-  
+  background-color: #818589;
 }
 
 .date {
